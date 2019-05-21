@@ -1,0 +1,21 @@
+{
+    "bridge_sn": "3DEAK00000004079",
+    "bridge_fw": "99.99.99",
+    "lights": [
+        {
+            "name": "3",
+            "uuid": "5813c713-b2d7-461a-8d85-b308675bf200",
+            "capabilities": "power+dim"
+        },
+        {
+            "name": "1",
+            "uuid": "1e74aa84-7994-4ca4-9528-775ad37cef5e",
+            "capabilities": "power+dim"
+        },
+        {
+            "name": "2",
+            "uuid": "96aabe47-72de-4893-b8c9-d587b8872f00",
+            "capabilities": "power+dim"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "name": "telnet_fake_bridge",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "mdns": "2.4.0"
+    }
+}
