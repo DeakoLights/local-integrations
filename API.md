@@ -40,11 +40,11 @@ The contents of **solicited request** message will be stuctured as such:
 
 ```
 {
-    transactionId: {{ a unique uuid v4 }},
-    type: {{ the message type }},
-    dst: {{ the device that should listen and respond to this message }},
-    src: {{ the device or service requesting this }},
-    data: {{ Extra JSON data for this type}}
+    "transactionId": {{ a unique uuid v4 }},
+    "type": {{ the message type }},
+    "dst": {{ the device that should listen and respond to this message }},
+    "src": {{ the device or service requesting this }},
+    "data": {{ Extra JSON data for this type}}
 }
 ```
 
@@ -52,14 +52,14 @@ The contents of **solicited response** message will be stuctured as such:
 
 ```
 {
-    transactionId: {{ same uuid as the input message }},
-    type: {{ the message type }},
-    status: {{ ok or error }},
-    dst: {{ the device that requested this message }},
-    src: {{ the device responding to this }},
-    timestamp: {{ unix epoch, time this event occured }},
-    status: {{ "ok" or "error" },
-    data: {{ if status is ok: Extra JSON data for type, else error payload }}
+    "transactionId": {{ same uuid as the input message }},
+    "type": {{ the message type }},
+    "status": {{ ok or error }},
+    "dst": {{ the device that requested this message }},
+    "src": {{ the device responding to this }},
+    "timestamp": {{ unix epoch, time this event occured }},
+    "status": {{ "ok" or "error" },
+    "data": {{ if status is ok: Extra JSON data for type, else error payload }}
 }
 ```
 
@@ -67,11 +67,11 @@ The contents of an **unsolicited** message will be stuctured as such:
 
 ```
 {
-    type: {{ the message type }},
-    dst?: {{ the device this message is sending to, optional}},
-    src: {{ the device this message is coming from }}, 
-    timestamp: {{ unix epoch, time this event occured }},
-    data: {{ Extra JSON response data for this type }}
+    "type": {{ the message type }},
+    "dst"?: {{ the device this message is sending to, optional}},
+    "src": {{ the device this message is coming from }}, 
+    "timestamp": {{ unix epoch, time this event occured }},
+    "data": {{ Extra JSON response data for this type }}
 }
 ```
 
@@ -92,26 +92,26 @@ To get a list of devices:
 3) Wait and listen for unsolicited events that come from the bridge for the corresponding # of devices
 
 ### 3.1.1 Get current device list (solicited request):
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "DEVICE_LIST",
-    dst: "deako",
-    src: "ACME Corp"
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "DEVICE_LIST",
+    "dst": "deako",
+    "src": "ACME Corp"
 }
 ```
 
 ### 3.1.2 Return the current device list (solicited response):
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "DEVICE_LIST",
-    dst: "ACME Corp",
-    src: "deako",
-    timestamp: 00000000000000001,
-    status: "ok",
-    data: {
-        number_of_devices: 30
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "DEVICE_LIST",
+    "dst": "ACME Corp",
+    "src": "deako",
+    "timestamp": 00000000000000001,
+    "status": "ok",
+    "data": {
+        "number_of_devices": 30
     }
 }
 ```
@@ -121,18 +121,18 @@ To get a list of devices:
 This will happen after the above response for as many devices as we have
 on a profile.
 
-```
+```json
 {
-    type: "DEVICE_FOUND",
-    src: "deako",
-    timestamp: 00000000000000001,
-    data: {
-        name: "Living Room",
-        uuid: "3748292-28388292-8474728293-8838383",
-        capabilities: "power+dim",
-        state: {
-            power: false,
-            dim: 21
+    "type": "DEVICE_FOUND",
+    "src": "deako",
+    "timestamp": 00000000000000001,
+    "data": {
+        "name": "Living Room",
+        "uuid": "3748292-28388292-8474728293-8838383",
+        "capabilities": "power+dim",
+        "state": {
+            "power": false,
+            "dim": 21
         }
     }
 }
@@ -151,17 +151,17 @@ There is currently only one event type:
 1) DEVICE_STATE_CHANGE
 
 ### 3.2.1 Device State Change
-```
+```json
 {
-    type: "EVENT",
-    src: "deako",
-    timestamp: 00000000000000001,
-    data: {
-        eventType: "DEVICE_STATE_CHANGE",
-        id: "3748292-28388292-8474728293-8838383",
-        state: {
-            power: false,
-            dim: 21
+    "type": "EVENT",
+    "src": "deako",
+    "timestamp": 00000000000000001,
+    "data": {
+        "eventType": "DEVICE_STATE_CHANGE",
+        "id": "3748292-28388292-8474728293-8838383",
+        "state": {
+            "power": false,
+            "dim": 21
         }
     }
 }
@@ -178,46 +178,46 @@ know that the Request is being processed. After the Request has been processed, 
 event will take place with the updated device state. 
 
 ### 3.3.1 change device state (solicited request):
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "CONTROL",
-    dst: "deako",
-    src: "ACME Corp",
-    data: {
-        target: "3748292-28388292-8474728293-8838383",
-        state: {
-            power: false,
-            dim: 21
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "CONTROL",
+    "dst": "deako",
+    "src": "ACME Corp",
+    "data": {
+        "target": "3748292-28388292-8474728293-8838383",
+        "state": {
+            "power": false,
+            "dim": 21
         }
     }
 }
 ```
 
 ### 3.3.2 change device state success (solicited response):
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "CONTROL",
-    dst: "ACME Corp",
-    src: "deako",
-    timestamp: 00000000000000001,
-    status: "ok"
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "CONTROL",
+    "dst": "ACME Corp",
+    "src": "deako",
+    "timestamp": 00000000000000001,
+    "status": "ok"
 }
 ```
 
 ### 3.3.3 change device state error (solicited response):
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "CONTROL",
-    dst: "ACME Corp",
-    src: "deako",
-    timestamp: 00000000000000001,
-    status: "error",
-    data: {
-        code: "DEVICE_BUSY",
-        message: "Device is busy"
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "CONTROL",
+    "dst": "ACME Corp",
+    "src": "deako",
+    "timestamp": 00000000000000001,
+    "status": "error",
+    "data": {
+        "code": "DEVICE_BUSY",
+        "message": "Device is busy"
     }
 }
 ```
@@ -227,24 +227,24 @@ event will take place with the updated device state.
 These requests allow a client to ping the Deako Connect.
 
 ### 3.4.1 Ping Request (solicited request)
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "PING",
-    dst: "deako",
-    src: "ACME Corp"
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "PING",
+    "dst": "deako",
+    "src": "ACME Corp"
 }
 ```
 
 ### 3.4.2 Ping Response (solicited response)
-```
+```json
 {
-    transactionId: "015c44d3-abec-4be0-bb0d-34adb4b81559",
-    type: "PING",
-    dst: "ACME Corp",
-    src: "deako",
-    timestamp: 00000000000000001,
-    status: "ok"
+    "transactionId": "015c44d3-abec-4be0-bb0d-34adb4b81559",
+    "type": "PING",
+    "dst": "ACME Corp",
+    "src": "deako",
+    "timestamp": 00000000000000001,
+    "status": "ok"
 }
 ```
 
